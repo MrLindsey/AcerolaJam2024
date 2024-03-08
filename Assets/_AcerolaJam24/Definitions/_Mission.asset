@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e473103c8643124428217f48144d6072, type: 3}
+  m_Name: _Mission
+  m_EditorClassIdentifier: 
+  _characterBasePrefab: {fileID: 3737305189652607309, guid: 55fc92d3e4f9c4743a74381e1d1e4118, type: 3}
+  _characterDefs:
+  - _name: Bob
+    _characterPrefab: {fileID: 8664298309152412370, guid: 597127a2bd71eaa4c9b4af0b9dbca9fa, type: 3}
+    _enterType: 0
+    _exitType: 0
+    _useExistingCharacter: 0
+    _characterNameInScene: 
+    _rotateOnExit: 0
+    _taskLists:
+    - {fileID: 11400000, guid: 7ee8d5834eac6a4468368e9628e98619, type: 2}
+    - {fileID: 11400000, guid: 55ca85b452b42c04182322e10fe09a0d, type: 2}
+    - {fileID: 11400000, guid: 0148a83ae2d0a074dbd6d17b0d845cc9, type: 2}
+    - {fileID: 11400000, guid: 5aeb9ced4122354488b7a3098d85ed43, type: 2}
+    - {fileID: 11400000, guid: b7b4ea4884df5fa478ae719fd77c7474, type: 2}
+    - {fileID: 11400000, guid: e4fceec097a904f499987982be6be193, type: 2}
+    - {fileID: 11400000, guid: cb071e8dad51d7042b53840165560ccc, type: 2}
+    _commonInterruptables:
+    - _name: Hit Character
+      _type: 1
+      _startTime: 0
+      _clips: []
+  - _name: Sam
+    _characterPrefab: {fileID: 6597146701329003142, guid: a7acfd4c5250fb341bcb54e290c39757, type: 3}
+    _enterType: 0
+    _exitType: 0
+    _useExistingCharacter: 0
+    _characterNameInScene: 
+    _rotateOnExit: 0
+    _taskLists:
+    - {fileID: 11400000, guid: 1875279846fe0944aa943c6fd9f4480c, type: 2}
+    - {fileID: 11400000, guid: bc7e4635062b3fd4ab381dbd98156cb2, type: 2}
+    - {fileID: 11400000, guid: 5a4fe0f59ece5d74ab59c518db82424a, type: 2}
+    - {fileID: 11400000, guid: 02ce7dce15a50f04d9513516a942e0bb, type: 2}
+    - {fileID: 11400000, guid: efb5bdc5c92dbec4cb71840988b50509, type: 2}
+    - {fileID: 11400000, guid: 968f7517c79f7ba499b9c618b9aa4dd7, type: 2}
+    _commonInterruptables:
+    - _name: Hit Character
+      _type: 1
+      _startTime: 0
+      _clips: []
+  - _name: Bob
+    _characterPrefab: {fileID: 8664298309152412370, guid: 597127a2bd71eaa4c9b4af0b9dbca9fa, type: 3}
+    _enterType: 0
+    _exitType: 0
+    _useExistingCharacter: 1
+    _characterNameInScene: 
+    _rotateOnExit: 0
+    _taskLists:
+    - {fileID: 11400000, guid: 91162e701b05de941bd6acf9aa19d80a, type: 2}
+    - {fileID: 11400000, guid: a989d14ab7c4c11458617d7016c9d6f4, type: 2}
+    _commonInterruptables:
+    - _name: Hit Character
+      _type: 1
+      _startTime: 0
+      _clips: []
+  - _name: Bot
+    _characterPrefab: {fileID: 0}
+    _enterType: 0
+    _exitType: 0
+    _useExistingCharacter: 0
+    _characterNameInScene: DroneCharacter
+    _rotateOnExit: 0
+    _taskLists:
+    - {fileID: 11400000, guid: fc0295f6736471341a88ff133f335acd, type: 2}
+    - {fileID: 11400000, guid: b92a5a07ef360e54ab2764511f2c1272, type: 2}
+    _commonInterruptables:
+    - _name: Hit Character
+      _type: 1
+      _startTime: 0
+      _clips: []
+  - _name: Bob
+    _characterPrefab: {fileID: 8664298309152412370, guid: 597127a2bd71eaa4c9b4af0b9dbca9fa, type: 3}
+    _enterType: 0
+    _exitType: 0
+    _useExistingCharacter: 1
+    _characterNameInScene: 
+    _rotateOnExit: 0
+    _taskLists:
+    - {fileID: 11400000, guid: 35d7f574c1dd6494fb0bd12cc34daeb4, type: 2}
+    _commonInterruptables:
+    - _name: Hit Character
+      _type: 1
+      _startTime: 0
+      _clips: []

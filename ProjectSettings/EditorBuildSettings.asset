@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_AcerolaJam24/Scenes/Main.unity
+    guid: 8e0853a486fa67b409662e72ab544f59
   m_configObjects: {}

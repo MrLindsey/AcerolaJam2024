@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49083095ed445d04b826d2b8923c1d73, type: 3}
+  m_Name: DummyActingClip
+  m_EditorClassIdentifier: 
+  _overrideTime: 0
+  _numFrames: 0
+  _applyHead: 1
+  _applyArms: 1
+  _looped: 0
+  _objData:
+  - _name: Dummy
+    _boneName: 
+    _applyPos: 0
+    _applyRot: 0
+    _rotScale: {x: 0, y: 0, z: 0, w: 0}
+    _rotOffset: {x: 0, y: 0, z: 0, w: 0}
+    _posFrames: []
+    _rotFrames: []
+    _leftTriggerFrames: []
+    _rightTriggerFrames: []
+    _leftGrabFrames: []
+    _rightGrabFrames: []

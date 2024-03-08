@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d574fc40c547442b789ef5ac181657, type: 3}
+  m_Name: Sneeze6
+  m_EditorClassIdentifier: 
+  _audioClip: {fileID: 8300000, guid: a167137d4004cdd45a31c9711b3b71ac, type: 3}
+  _fixedUpdateRate: 2
+  _volumeData:
+  - 0.0000038146973
+  - 0.0012074587
+  - 0.033040456
+  - 0.0039759157
+  - 0.1969882
+  - 0.46141496
+  - 0.2646714
+  - 0.40776783
+  - 0.28223827
+  - 0.16692947
+  - 0.11276071
+  - 0.13613185
+  - 0.0882621
+  - 0.045542944
+  - 0.04380038
+  - 0.028070975
+  - 0.011722825

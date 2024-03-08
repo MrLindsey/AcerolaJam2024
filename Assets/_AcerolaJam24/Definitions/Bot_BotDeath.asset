@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd65a5c172c7d864c8c032c976eb375a, type: 3}
+  m_Name: Bot_BotDeath
+  m_EditorClassIdentifier: 
+  _title: 
+  _startChat:
+  - _chatString: BotDeath
+    _audioClip: {fileID: 11400000, guid: 10ff3436651016b42b0c67cbf84ce6e5, type: 2}
+    _actingClip: {fileID: 11400000, guid: 57f787740abf52d46a3fddb6b6e92624, type: 2}
+    _interruptible: 1
+    _chatTime: 0
+    _grabObjectName: 
+  _completeChat: []
+  _tasks:
+  - _name: BotDeath
+    _taskDescription: Press the Start Button Again
+    _type: 2
+    _objectName: BotDeathTrigger
