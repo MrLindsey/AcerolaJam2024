@@ -20,7 +20,13 @@ MonoBehaviour:
     _interruptible: 1
     _chatTime: 0
     _grabObjectName: 
-  _completeChat: []
+  _completeChat:
+  - _chatString: EndCrash
+    _audioClip: {fileID: 11400000, guid: 25edb22c460e37348b828dfa324e4d5b, type: 2}
+    _actingClip: {fileID: 11400000, guid: 57f787740abf52d46a3fddb6b6e92624, type: 2}
+    _interruptible: 0
+    _chatTime: 0
+    _grabObjectName: 
   _tasks:
   - _name: StartButtonFinal
     _taskDescription: Press the Start Button Again

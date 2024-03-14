@@ -17,29 +17,19 @@ public class PlugLogic : MonoBehaviour
     [SerializeField] private float _maxRange = 2.0f;
     [SerializeField] private float _snapForce = 1.0f;
 
-    private LineRenderer _lineRenderer;
     private Rigidbody _physics;
-    private Vector3[] _lineEnds;
+
+    public Transform GetCableEnd() { return _cableEnd; }
 
     // Start is called before the first frame update
     void Start()
     {
-        _lineEnds = new Vector3[2];
-        _lineRenderer = GetComponent<LineRenderer>();
         _physics = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Update the line renderer between the two ends
-        if (_lineRenderer)
-        {
-            _lineEnds[0] = transform.position;
-            _lineEnds[1] = _cableEnd.position;
-            _lineRenderer.SetPositions(_lineEnds);
-        }
-
         if (_physics.isKinematic == false)
         {
             // Check if the cable is at full range

@@ -17,6 +17,10 @@ public class SocketLogic : MonoBehaviour
     [SerializeField] private bool _oneShot;
     [SerializeField] private Transform[] _socketAttachments;
     [SerializeField] private bool _showPreview = true;
+    [SerializeField] private Mesh _previewMesh;
+    [SerializeField] private Material _previewMaterial;
+    [SerializeField] private bool _turnOffShadowWhenAttached = true;
+    [SerializeField] private bool _turnOffCollisionWhenFused = true;
 
     private Transform _fusedObject;
     private List<Transform> _currentObjectsWithinSocket = new List<Transform>();
@@ -34,12 +38,16 @@ public class SocketLogic : MonoBehaviour
         {
             bool allowAttach = true;
 
-            // Do we have enough attachments for this object?
-            if (_socketAttachments.Length > 0)
-                allowAttach = _currentObjectsWithinSocket.Count < _socketAttachments.Length;
+            // A socket can't accept another socket
+            if (other.GetComponent<SocketLogic>() == null)
+            {
+                // Do we have enough attachments for this object?
+                if (_socketAttachments.Length > 0)
+                    allowAttach = _currentObjectsWithinSocket.Count < _socketAttachments.Length;
 
-            if (allowAttach)
-                _currentObjectsWithinSocket.Add(other.transform);
+                if (allowAttach)
+                    _currentObjectsWithinSocket.Add(other.transform);
+            }
         }
     }
 
@@ -54,6 +62,36 @@ public class SocketLogic : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (_currentObjectsWithinSocket.Count > 0)
+        {
+            // Draw the preview mesh
+            if (_showPreview && _previewMesh)
+            {
+                Vector3 pos;
+                Quaternion rot;
+
+                pos = transform.position;
+                rot = transform.rotation;
+
+                // Show the preview in the next attachment slot
+                if (_socketAttachments.Length > 0)
+                {
+                    int objectIndex = _fusedObjects.Count;
+                    if (objectIndex < _socketAttachments.Length)
+                    {
+                        pos = _socketAttachments[objectIndex].position;
+                        rot = _socketAttachments[objectIndex].rotation;
+                    }
+                }
+
+                if (_currentObjectsWithinSocket.Count > _fusedObjects.Count)
+                    Graphics.DrawMesh(_previewMesh, pos, rot, _previewMaterial, 0);
+            }
+        }
+    }
+
+    private void FixedUpdate()
     {
         if (_currentObjectsWithinSocket.Count > 0)
         {
@@ -80,8 +118,18 @@ public class SocketLogic : MonoBehaviour
                         physics.velocity = Vector3.zero;
                         physics.isKinematic = true;
 
-                        Collider collision = objectInSocket.GetComponent<Collider>();
-                        collision.enabled = false;
+                        if (_turnOffCollisionWhenFused)
+                        {
+                            Collider collision = objectInSocket.GetComponent<Collider>();
+                            collision.enabled = false;
+                        }
+
+                        if (_turnOffShadowWhenAttached)
+                        {
+                            MeshRenderer meshRenderer = objectInSocket.GetComponent<MeshRenderer>();
+                            if (meshRenderer != null)
+                                meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        }
 
                         _fusedObjects.Add(objectInSocket);
                     }

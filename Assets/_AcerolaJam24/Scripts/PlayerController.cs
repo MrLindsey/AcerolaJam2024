@@ -31,9 +31,40 @@ public class PlayerController : MonoBehaviour
 
     private bool _allowAiming = true;
     private bool _allowMovement = true;
+    private bool _isInCutscene = false;
+
+    private Vector3 _storedCamPos;
+    private Quaternion _storedCamRot;
+    private Vector3 _storedPlayerPos;
+    private Transform _cutSceneCam;
 
     public void SetAllowAiming(bool onOff) { _allowAiming = onOff; }
     public void SetAllowMovement(bool onOff) { _allowMovement = onOff; }
+
+    public void SetCutsceneMode(bool onOff, Transform cam)
+    {
+        if (onOff)
+        {
+            _cutSceneCam = cam;
+            _storedCamPos = _camera.position;
+            _storedCamRot = _camera.rotation;
+            _storedPlayerPos = transform.position;
+
+            SetAllowAiming(false);
+            SetAllowMovement(false);
+        }
+        else
+        {
+            _camera.position = _storedCamPos;
+            _camera.rotation = _storedCamRot;
+            _controller.transform.position = _storedPlayerPos;
+
+            SetAllowAiming(true);
+            SetAllowMovement(true);
+        }
+
+        _isInCutscene = onOff;
+    }
 
     void Start()
     {
@@ -43,55 +74,65 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
-        if (_isGrounded && _velocity.y < 0)
-            _velocity.y = -2.0f;
-
-        if (_allowMovement)
+        if (_isInCutscene)
         {
-            float speed = _speed;
-
-            // Deal with sprint
-            if (Input.GetKey(KeyCode.LeftShift))
-                speed = _speed * _sprintSpeed;
-
-            // Deal with movement
-            float moveX = Input.GetAxis("Horizontal");
-            float moveZ = Input.GetAxis("Vertical");
-
-            Vector3 move = (transform.right * moveX) + (transform.forward * moveZ);
-            _controller.Move(move * speed * Time.deltaTime);
+            _camera.position = _cutSceneCam.position;
+            _camera.rotation = _cutSceneCam.rotation;
+            _controller.transform.position = _cutSceneCam.position;
         }
-
-        if (_allowAiming)
+        else
         {
-            // Deal with look rotation
-            float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * _sensitivity;
-            float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * _sensitivity;
 
-            // Cap out any big values (these can happen at the start)
-            if (Mathf.Abs(mouseX) > _inputIgnoreValue)
-                mouseX = 0.0f;
+            _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+            if (_isGrounded && _velocity.y < 0)
+                _velocity.y = -2.0f;
 
-            if (Mathf.Abs(mouseY) > _inputIgnoreValue)
-                mouseY = 0.0f;
+            if (_allowMovement)
+            {
+                float speed = _speed;
 
-            _rotation.y += mouseX;
-            _rotation.x -= mouseY;
-            _rotation.x = Mathf.Clamp(_rotation.x, -90.0f, 90f);
+                // Deal with sprint
+                if (Input.GetKey(KeyCode.LeftShift))
+                    speed = _speed * _sprintSpeed;
 
-            transform.rotation = Quaternion.Euler(0.0f, _rotation.y, 0.0f);
+                // Deal with movement
+                float moveX = Input.GetAxis("Horizontal");
+                float moveZ = Input.GetAxis("Vertical");
 
-            // Deal with the camera
-            Vector3 camPos = _camera.position;
-            camPos = transform.position;
-            camPos.y += _camYOffset;
-            _camera.position = camPos;
-            _camera.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0.0f);
+                Vector3 move = (transform.right * moveX) + (transform.forward * moveZ);
+                _controller.Move(move * speed * Time.deltaTime);
+            }
+
+            if (_allowAiming)
+            {
+                // Deal with look rotation
+                float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * _sensitivity;
+                float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * _sensitivity;
+
+                // Cap out any big values (these can happen at the start)
+                if (Mathf.Abs(mouseX) > _inputIgnoreValue)
+                    mouseX = 0.0f;
+
+                if (Mathf.Abs(mouseY) > _inputIgnoreValue)
+                    mouseY = 0.0f;
+
+                _rotation.y += mouseX;
+                _rotation.x -= mouseY;
+                _rotation.x = Mathf.Clamp(_rotation.x, -90.0f, 90f);
+
+                transform.rotation = Quaternion.Euler(0.0f, _rotation.y, 0.0f);
+
+                // Deal with the camera
+                Vector3 camPos = _camera.position;
+                camPos = transform.position;
+                camPos.y += _camYOffset;
+                _camera.position = camPos;
+                _camera.rotation = Quaternion.Euler(_rotation.x, _rotation.y, 0.0f);
+            }
+
+            // Apply Gravity
+            _velocity.y += _gravity * Time.deltaTime;
+            _controller.Move(_velocity * Time.deltaTime);
         }
-
-        // Apply Gravity
-        _velocity.y += _gravity * Time.deltaTime;
-        _controller.Move(_velocity * Time.deltaTime);
     }
 }

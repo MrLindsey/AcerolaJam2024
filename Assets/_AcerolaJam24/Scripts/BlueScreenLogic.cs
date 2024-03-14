@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class BlueScreenLogic : MonoBehaviour
 {
+    [SerializeField] private MusicMan _musicMan;
 
     public void OnPressQRCode()
     {
@@ -23,6 +24,8 @@ public class BlueScreenLogic : MonoBehaviour
         // Show the cursor on the blue screen
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        _musicMan.StopAll();
     }
 
     // Start is called before the first frame update

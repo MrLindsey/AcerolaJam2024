@@ -1,6 +1,7 @@
 # Additional ignores
 /[Aa]ssets/Plugins/
 /[Aa]ssets/_Tools/
+/[Aa]ssets/DynamicBone/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #

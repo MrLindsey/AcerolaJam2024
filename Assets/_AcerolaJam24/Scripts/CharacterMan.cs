@@ -339,7 +339,10 @@ public class CharacterMan : MonoBehaviour
             if ((_currentChat._actingClip != null)  || (_currentChat._audioClip != null))
                 _character.PlayActingClip(_currentChat._actingClip, _currentChat._audioClip);
 
-            _chatTimer = _currentChat._audioClip._audioClip.length;
+            if (_currentChat._audioClip != null)
+                _chatTimer = _currentChat._audioClip._audioClip.length;
+            else
+                _chatTimer = _currentChat._chatTime;
         }
         else
         {

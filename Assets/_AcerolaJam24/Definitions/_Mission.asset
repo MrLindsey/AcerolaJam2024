@@ -22,6 +22,7 @@ MonoBehaviour:
     _characterNameInScene: 
     _rotateOnExit: 0
     _taskLists:
+    - {fileID: 11400000, guid: 831f8bdb96e983848beb5c25f8486d80, type: 2}
     - {fileID: 11400000, guid: 7ee8d5834eac6a4468368e9628e98619, type: 2}
     - {fileID: 11400000, guid: 55ca85b452b42c04182322e10fe09a0d, type: 2}
     - {fileID: 11400000, guid: 0148a83ae2d0a074dbd6d17b0d845cc9, type: 2}

@@ -56,7 +56,18 @@ public class FaceController : MonoBehaviour
         _targetVolumeValue = 0.0f;
     }
 
+    public void KilledCharacter()
+    {
+        Invoke("TurnOffFace", 5.5f);
+    }
+
     public float GetSpeechVolume() { return _targetVolumeValue; }
+
+    void TurnOffFace()
+    {
+        _mouth.gameObject.SetActive(false);
+        _eyes.gameObject.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Awake()

@@ -16,13 +16,13 @@ MonoBehaviour:
   _startChat:
   - _chatString: Intro
     _audioClip: {fileID: 11400000, guid: 0bd06c054f7a70d4cb674b09a5f65104, type: 2}
-    _actingClip: {fileID: 11400000, guid: 57f787740abf52d46a3fddb6b6e92624, type: 2}
+    _actingClip: {fileID: 11400000, guid: abdf356cdb3d4504b9c83eb1a90a0e22, type: 2}
     _interruptible: 1
     _chatTime: 0
     _grabObjectName: 
   _completeChat: []
   _tasks:
-  - _name: Reach Trigger
+  - _name: ReachIntroTrigger
     _taskDescription: Reach the Trigger
     _type: 2
     _objectName: EntryTrigger

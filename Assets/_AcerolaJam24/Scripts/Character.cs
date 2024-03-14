@@ -20,7 +20,9 @@ public class Character : MonoBehaviour
     [SerializeField] private float _mouthShutThreshold = 0.1f;
     [SerializeField] private float _sentencePauseTime = 0.5f;
     [SerializeField] private float _backFromInterruptionTime = 1.0f;
-    [SerializeField] private float _isQuietTime = 0.1f;
+
+    [SerializeField] private ActingClip _defaultActingClip;
+    //[SerializeField] private float _isQuietTime = 0.1f;
 
     private class RestoreInfo
     {
@@ -73,10 +75,12 @@ public class Character : MonoBehaviour
 
     public bool IsCurrentlyQuiet()
     {
-        if (_mouthShutTimer >= _isQuietTime)
-            return true;
+        return true;
 
-        return false;
+        // Having this caused too issue with mission sequences
+        //if (_mouthShutTimer >= _isQuietTime)
+        //    return true;
+        //return false;
     }
 
     public void StopCharacter()
@@ -161,11 +165,13 @@ public class Character : MonoBehaviour
         _lastSentenceTime = 0.0f;
 
         _currAudioClip = audioClip;
-        actingClip.SetAudioClip(audioClip._audioClip);
-        _face.PlayClip(audioClip);
+
 
         if (audioClip != null)
         {
+            actingClip.SetAudioClip(audioClip._audioClip);
+            _face.PlayClip(audioClip);
+
             _audio.clip = audioClip._audioClip;
             _audio.time = 0.0f;
             _audio.Play();
@@ -230,6 +236,14 @@ public class Character : MonoBehaviour
 
             // The clip has been restored, we shouldn't be restoring it again until we store another one
             _hasRestorableClip = false;
+        }
+    }
+
+    private void Start()
+    {
+        if (_defaultActingClip != null)
+        {
+            PlayActingClip(_defaultActingClip, null);
         }
     }
 
@@ -345,8 +359,11 @@ public class Character : MonoBehaviour
 
         UpdatePersonalSpace();
         UpdateInterruption();
-        UpdateMouth();
-        UpdateLookAt();
+        if (_face)
+        {
+            UpdateMouth();
+            UpdateLookAt();
+        }
     }
 
     void UpdatePersonalSpace()

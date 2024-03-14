@@ -27,7 +27,9 @@ public class CursorGrabInteractor : MonoBehaviour
     [SerializeField] private float _maxThrowForce = 2.0f;
     [SerializeField] private float _throwYOffset = 0.1f;
     [SerializeField] private Image _mainCursor;
+    [SerializeField] private Image _dotCursor;
     [SerializeField] private Image _powerCursor;
+    [SerializeField] private int _releasedFrameCount = 3;
 
     private float _buttonHeldDownTimer = 0.0f;
     private bool _isGrabbing = false;
@@ -40,12 +42,16 @@ public class CursorGrabInteractor : MonoBehaviour
     private Quaternion _rotationDifference;
     private bool _mouseReleased;
     private bool _isThrowable;
+    private bool _showingDotCursor = false;
+    private int _grabbableLayer;
 
     private RigidbodyInterpolation _initialInterpolationSetting;
     private bool _initialKinematic;
     private CollisionDetectionMode _initialCollisionMode;
     private Transform _lastReleasedObject;
     private bool _allowGrabbing = true;
+    private int _lastReleasedFrameCount = 0;
+    private bool _allowRotation = true;
 
     public Transform GetLastReleasedObject() { return _lastReleasedObject; }
 
@@ -81,6 +87,18 @@ public class CursorGrabInteractor : MonoBehaviour
 
         _ray = new Ray();
         _powerCursor.fillAmount = 0.0f;
+        _dotCursor.gameObject.SetActive(false);
+        _grabbableLayer = LayerMask.NameToLayer("Grabbable");
+    }
+
+    void ShowDot(bool onOff)
+    {
+        if (_showingDotCursor != onOff)
+        {
+            _mainCursor.gameObject.SetActive(!onOff);
+            _dotCursor.gameObject.SetActive(onOff);
+            _showingDotCursor = onOff;
+        }
     }
 
     // Update is called once per frame
@@ -151,10 +169,14 @@ public class CursorGrabInteractor : MonoBehaviour
             _ray.direction = _camera.forward;
             _ray.origin = _camera.transform.position;
 
+            bool showDot = false;
             if (Physics.Raycast(_ray, out hit, _maxGrabDistance, _grabbableLayers))
             {
                 if (hit.collider != null)
                 {
+                    if (hit.transform.gameObject.layer == _grabbableLayer)
+                        showDot = true;
+
                     if (Input.GetMouseButtonDown(0))
                     {
                         _buttonHeldDownTimer = 0.0f;
@@ -179,14 +201,23 @@ public class CursorGrabInteractor : MonoBehaviour
                     }
                 }
             }
+
+            ShowDot(showDot);
         }
     }
 
     private void FixedUpdate()
     {
-        // Only allow the last released object cache to exist for one physics frame
-        if (_lastReleasedObject != null)
-            _lastReleasedObject = null;
+        if (_lastReleasedFrameCount > 0)
+        {
+            _lastReleasedFrameCount--;
+            if (_lastReleasedFrameCount < 0)
+            {
+                // Only allow the last released object cache to exist for one physics frame
+                if (_lastReleasedObject != null)
+                    _lastReleasedObject = null;
+            }
+        }
 
         if (_grabbedObject != null)
         {
@@ -208,12 +239,15 @@ public class CursorGrabInteractor : MonoBehaviour
             _grabbedPhysics.velocity = Vector3.zero;
             _grabbedPhysics.AddForce(force, ForceMode.VelocityChange);
 
-            Vector3 targetDirection = _camera.position - _grabbedObject.position;
-            targetDirection.y = 0f;
-            Quaternion targetRotation = _camera.rotation * _rotationDifference;
+            if (_allowRotation)
+            {
+                Vector3 targetDirection = _camera.position - _grabbedObject.position;
+                targetDirection.y = 0f;
+                Quaternion targetRotation = _camera.rotation * _rotationDifference;
 
-            Quaternion newRotation = Quaternion.Lerp(_grabbedPhysics.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
-            _grabbedPhysics.MoveRotation(newRotation);
+                Quaternion newRotation = Quaternion.Lerp(_grabbedPhysics.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
+                _grabbedPhysics.MoveRotation(newRotation);
+            }
 
             //We need to recalculte the grabbed distance as the object distance from the player has been changed
             _currentGrabDistance = Vector3.Distance(_ray.origin, holdPoint);
@@ -248,6 +282,12 @@ public class CursorGrabInteractor : MonoBehaviour
 
         if (_grabbedObject.CompareTag("Throwable"))
             _isThrowable = true;
+
+        _allowRotation = true;
+
+        // If we're a plug or a socket, don't allow rotation
+        if ( (_grabbedObject.GetComponent<PlugLogic>() != null ) || (_grabbedObject.GetComponent<SocketLogic>() != null))
+            _allowRotation = false; 
 
         _isGrabbing = true;
         _lastReleasedObject = null;
@@ -286,6 +326,8 @@ public class CursorGrabInteractor : MonoBehaviour
 
             _isGrabbing = false;
             _powerCursor.fillAmount = 0.0f;
+
+            _lastReleasedFrameCount = _releasedFrameCount;
         }
     }
 

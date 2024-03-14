@@ -16,7 +16,9 @@ public class GrabbableObjectController : MonoBehaviour
     [SerializeField] bool _playAnimOnGrab = false;
     [SerializeField] bool _oneShotAnim = true;
 
+    private AudioSource _audio;
     private Animation _anim;
+
     private bool _hasPlayedAnim;
 
     public bool OnGrabObject()
@@ -29,6 +31,12 @@ public class GrabbableObjectController : MonoBehaviour
                 if (_oneShotAnim)
                     _hasPlayedAnim = true;
             }
+
+            if (_audio)
+            {
+                _audio.Stop();
+                _audio.Play();
+            }
         }
 
         return _isGrabbable;
@@ -38,6 +46,7 @@ public class GrabbableObjectController : MonoBehaviour
     void Awake()
     {
         _anim = GetComponent<Animation>();
+        _audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

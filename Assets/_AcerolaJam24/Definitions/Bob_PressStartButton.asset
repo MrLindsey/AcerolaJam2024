@@ -16,7 +16,7 @@ MonoBehaviour:
   _startChat:
   - _chatString: PressStart
     _audioClip: {fileID: 11400000, guid: 8b001865697cb6745a86b2b66cf71e9d, type: 2}
-    _actingClip: {fileID: 11400000, guid: 57f787740abf52d46a3fddb6b6e92624, type: 2}
+    _actingClip: {fileID: 11400000, guid: f00f47a51d0662341855caba1979e07e, type: 2}
     _interruptible: 1
     _chatTime: 0
     _grabObjectName: 

@@ -16,7 +16,7 @@ MonoBehaviour:
   _startChat:
   - _chatString: FuseSneezingIntro
     _audioClip: {fileID: 11400000, guid: 8d403f974264c3e499572028422208dc, type: 2}
-    _actingClip: {fileID: 11400000, guid: 57f787740abf52d46a3fddb6b6e92624, type: 2}
+    _actingClip: {fileID: 11400000, guid: 9386812871af39442b96af5f0321190f, type: 2}
     _interruptible: 1
     _chatTime: 0
     _grabObjectName: 

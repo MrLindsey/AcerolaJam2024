@@ -16,8 +16,8 @@ public class FuseMan : MonoBehaviour
     [SerializeField] TaskMan _taskMan;
     [SerializeField] Transform[] _fuseSpawners;
     [SerializeField] Transform[] _fuses;
-    [SerializeField] float _respawnTime = 4.0f;
-    [SerializeField] float _respawnDecreasePerFuse = 0.25f;
+    [SerializeField] float _respawnTime = 3.0f;
+    [SerializeField] float _respawnDecreasePerFuse = 0.2f;
     [SerializeField] SocketLogic _fuseBoxSocket;
     [SerializeField] ActingClip _sneezeClip;
     [SerializeField] AudioClipDef[] _sneezeAudioDefs;
@@ -29,11 +29,19 @@ public class FuseMan : MonoBehaviour
     private bool _isActive = false;
     private bool _fulfilledTask1 = false;
     private bool _fulfilledTask2 = false;
+    private bool _playSneezeAudio = true;
 
     private int _numFusesAttached;
     private float _respawnTimeModified;
 
     private Character _character;
+    
+    public void TeleportFuses() { SpawnFuses(); }
+
+    public void PlaySneezeAudio(bool onOff)
+    {
+        _playSneezeAudio = onOff;
+    }
 
     public void Activate()
     {
@@ -66,18 +74,27 @@ public class FuseMan : MonoBehaviour
             Transform spawner = _randomisedSpawners[i];
 
             Rigidbody physics = fuse.GetComponent<Rigidbody>();
-            if (physics.freezeRotation == false)
+            if (physics.freezeRotation == false && physics.isKinematic == false)
             {
+                AberrationEffect aberration = fuse.GetComponent<AberrationEffect>();
+                aberration.DoAberrationEffect();
+
                 fuse.position = spawner.position;
-                fuse.localRotation = spawner.localRotation;
+                fuse.localRotation = Random.rotation;
+
+                if (physics.isKinematic == false)
+                    physics.velocity = Vector3.zero;
             }
         }
         _respawnTimer = _respawnTimeModified;
 
-        if (_character != null)
+        if (_playSneezeAudio)
         {
-            AudioClipDef sneeze = _sneezeAudioDefs[Random.Range(0, _sneezeAudioDefs.Length)];
-            _character.PlayActingClip(_sneezeClip, sneeze);
+            if (_character != null)
+            {
+                AudioClipDef sneeze = _sneezeAudioDefs[Random.Range(0, _sneezeAudioDefs.Length)];
+                _character.PlayActingClip(_sneezeClip, sneeze);
+            }
         }
     }
 
